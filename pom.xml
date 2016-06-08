@@ -17,6 +17,8 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<protobuf-java.version>2.6.1</protobuf-java.version>
+		<protoc-jar-maven-plugin.version>3.0.0-b3</protoc-jar-maven-plugin.version>
 	</properties>
 
 	<dependencies>
@@ -25,16 +27,47 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>com.google.protobuf</groupId>
+			<artifactId>protobuf-java</artifactId>
+			<version>${protobuf-java.version}</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
 		<plugins>
+
+			<plugin>
+				<groupId>com.github.os72</groupId>
+				<artifactId>protoc-jar-maven-plugin</artifactId>
+				<version>${protoc-jar-maven-plugin.version}</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<protocVersion>${protobuf-java.version}</protocVersion>
+							<outputDirectory>src/main/java</outputDirectory>
+							<includeDirectories>
+								<include>src/main/protobuf</include>
+							</includeDirectories>
+							<inputDirectories>
+								<include>src/main/protobuf</include>
+							</inputDirectories>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>

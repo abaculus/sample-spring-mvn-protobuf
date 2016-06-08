@@ -1,0 +1,27 @@
+package se.panok.spike.protobuf.model;
+
+option java_package = "se.panok.spike.protobuf.model";
+option java_outer_classname = "CustomerProtos";
+
+message Customer {
+    optional int32 id = 1;
+    optional string firstName = 2;
+    optional string lastName = 3;
+
+    enum EmailType {
+        PRIVATE = 1;
+        PROFESSIONAL = 2;
+    }
+
+    message EmailAddress {
+        optional string email = 1;
+        optional EmailType type = 2 [default = PROFESSIONAL];
+    }
+
+    repeated EmailAddress email = 5;
+}
+
+message Organization {
+    optional string name = 1;
+    repeated Customer customer = 2;
+}
